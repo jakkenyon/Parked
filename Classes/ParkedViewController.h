@@ -28,8 +28,10 @@
 @property (nonatomic, assign) BOOL initialZoom;
 @property (nonatomic, retain) NSString *notation;
 
+
 -(IBAction) park;
 -(IBAction) parkWithNote;
+-(void) cleanMap;
 -(void)addPinAtCoordsLat:(float)latitude Long:(float)longitude;
 -(void)addPinAtCoords:(CLLocationCoordinate2D)coordinate;
 -(CLLocationCoordinate2D) getUserLocation;

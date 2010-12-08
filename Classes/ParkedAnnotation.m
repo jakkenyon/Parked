@@ -41,5 +41,8 @@
 	return @"You parked here!";
 }
 
-
+-(void) dealloc {
+	[self.notation release];
+	[super dealloc];
+}
 @end

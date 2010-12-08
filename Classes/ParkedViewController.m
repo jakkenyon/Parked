@@ -16,6 +16,7 @@
 -(void) viewDidLoad {
 	[super viewDidLoad];
 	self.initialZoom = YES;
+
 	
 	BOOL parkStored = [[NSUserDefaults standardUserDefaults] boolForKey:@"parkStored"];
 	if (parkStored) {
@@ -52,7 +53,7 @@
 	//[noteAlert setTransform:CGAffineTransformMakeTranslation(0, 109)];
 	[noteAlert show];
 	[noteAlert release];
-	[noteField autorelease];
+	[noteField release];
 	
 	
 }
@@ -79,7 +80,9 @@
 		[[NSUserDefaults standardUserDefaults] setValue:self.notation forKey:@"storedNote"];
 	}
 	
-	[self.map removeAnnotations:[self.map annotations]];
+
+	//NSLog(@"%@", [self.map annotations]);
+	[self cleanMap];	
 	[self.map addAnnotation:parked];
 	
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"parkStored"];
@@ -89,16 +92,27 @@
 
 }
 
+-(void) cleanMap {
+	for (id annotation in [self.map annotations]) {
+		if ([annotation isKindOfClass:[ParkedAnnotation class]]) {
+			[self.map removeAnnotation:annotation];
+		}
+	}
+}
 
 -(MKAnnotationView*)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 	if ([annotation isKindOfClass:[MKUserLocation class]]) {
 		return nil;
 	} else {
 		
+		
+		
 		MKPinAnnotationView *pin = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"parkingident"] autorelease];
+		
 		pin.animatesDrop = YES;
 		pin.canShowCallout = YES;
 		
+
 		return pin;
 	}
 	
@@ -143,6 +157,8 @@
 
 
 - (void)dealloc {
+	[self.notation release];
+	[self.map release];
     [super dealloc];
 }
 

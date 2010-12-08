@@ -37,6 +37,7 @@
 		2D49A69D12AF28C00082C9A7 /* ParkedAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParkedAnnotation.h; sourceTree = "<group>"; };
 		2D49A69E12AF28C00082C9A7 /* ParkedAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParkedAnnotation.m; sourceTree = "<group>"; };
 		2D49A6A012AF28D30082C9A7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		2DC78EB912AF5960006487D9 /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.md; sourceTree = "<group>"; };
 		2DE2E6B012AF454F00B88268 /* parked-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "parked-icon.png"; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Parked_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parked_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Parked-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Parked-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
@@ -84,6 +85,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				2DC78EB912AF5960006487D9 /* Readme.md */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
