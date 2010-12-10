@@ -10,12 +10,13 @@
 
 @implementation ParkedViewController
 
-@synthesize map, parkButton, parkButtonWithNote;
-@synthesize initialZoom, notation;
+@synthesize map, picker, parkButton, parkButtonWithNote, timerButton, toolbar;
+@synthesize initialZoom, pickerVisible, notation;
 
 -(void) viewDidLoad {
 	[super viewDidLoad];
 	self.initialZoom = YES;
+	self.pickerVisible = NO;
 
 	
 	BOOL parkStored = [[NSUserDefaults standardUserDefaults] boolForKey:@"parkStored"];
@@ -30,6 +31,9 @@
 	}
 	
 }
+
+#pragma mark 
+#pragma mark Map functions
 
 -(IBAction) park {
 	[self addPinAtCoords:[self getUserLocation]];
@@ -141,7 +145,88 @@
 	return userLoc;
 }
 
+#pragma mark 
+#pragma mark Notification methods
 
+-(void) scheduleNotification {
+	[[UIApplication sharedApplication] cancelAllLocalNotifications];
+	
+		
+	UILocalNotification *notif = [[UILocalNotification alloc] init];
+	notif.fireDate = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval)[picker countDownDuration]];
+	notif.timeZone = [NSTimeZone defaultTimeZone];
+		
+	notif.alertBody = @"Time on the meter is up!";
+	notif.alertAction = @"View";
+	notif.soundName = UILocalNotificationDefaultSoundName;
+	notif.applicationIconBadgeNumber = 1;
+		
+	[[UIApplication sharedApplication] scheduleLocalNotification:notif];
+	[notif release];
+}
+
+-(void) showNotification {
+	UIAlertView *noteAlert = [[UIAlertView alloc] initWithTitle:@"Time on the meter is up!" 
+														message:@""
+													   delegate:self 
+											  cancelButtonTitle:NSLocalizedString(@"OK",nil)
+											  otherButtonTitles:nil];
+	
+	[noteAlert show];
+	[noteAlert release];
+
+}
+
+-(IBAction) showTimePicker {
+	CGRect toolbarRect = toolbar.frame;
+	CGRect pickerRect = picker.frame;
+	if (!pickerVisible) {
+		pickerRect.origin.y = CGRectGetMaxY(self.view.bounds);
+		picker.frame = pickerRect;
+		picker.hidden = NO;
+		
+		[UIView beginAnimations:nil context:nil];
+		[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+		[UIView setAnimationDuration:0.25];
+		
+		// Pop-up toolbar and picker
+		toolbarRect.origin.y = 200;
+		toolbar.frame = toolbarRect;
+		pickerRect.origin.y = 244;
+		picker.frame = pickerRect;
+		
+		// Change button label
+		self.timerButton.title = @"Save";
+		
+		[UIView commitAnimations];
+		self.pickerVisible = YES;
+	} else {
+		pickerRect.origin.y = 244;
+		picker.frame = pickerRect;
+		
+		[UIView beginAnimations:nil context:nil];
+		[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+		[UIView setAnimationDuration:0.25];
+		
+		// Slide down picker and toolbar
+		toolbarRect.origin.y = CGRectGetMaxY(self.view.bounds) - 44;
+		toolbar.frame = toolbarRect;
+		pickerRect.origin.y = CGRectGetMaxY(self.view.bounds);
+		picker.frame = pickerRect;
+		
+		// Show buttons
+		self.timerButton.title = @"Timer";
+
+		[UIView commitAnimations];
+		self.pickerVisible = NO;
+		[self scheduleNotification];
+	}
+}
+
+
+
+#pragma mark 
+#pragma mark Memory
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -158,6 +243,7 @@
 
 - (void)dealloc {
 	[self.notation release];
+	[self.picker release];
 	[self.map release];
     [super dealloc];
 }

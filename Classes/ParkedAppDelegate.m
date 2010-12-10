@@ -20,7 +20,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
-    // Override point for customization after application launch.
+
+	UILocalNotification *notification = [launchOptions objectForKey:
+											UIApplicationLaunchOptionsLocalNotificationKey];
+		
+	if (notification) {
+		[viewController showNotification];
+	}
+    
+	
+    application.applicationIconBadgeNumber = 0;
 
     // Add the view controller's view to the window and display.
     [self.window addSubview:viewController.view];
@@ -28,6 +37,16 @@
 
     return YES;
 }
+
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+	
+    application.applicationIconBadgeNumber = 0;
+
+   
+}
+
+
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {
